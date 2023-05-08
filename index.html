@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>贷款清单</title>
+</head>
+<body>
+  <div id="a1"></div>
+  <div id="a2"></div>
+  <div id="a3"></div>
+  <div id="a4"></div>
+  <div id="a5"></div>
+  <script src="./moment.min.js"></script>
+  <script>
+    function diffMonths(date1, date2) {
+        const a = moment(date1).startOf('month');
+        const b = moment(date2).startOf('month');
+        const diff = Math.abs(b.diff(a, 'months'));
+
+        return Array.apply([], new Array(diff + 1)).map(function(item, index) {
+            return a.clone().add(index, 'months').format('YYYY-MM');
+        });
+    };
+
+    let al_time = diffMonths(moment().format('YYYY-MM-DD HH:mm:ss'), '2028-11-20 00:00:00')
+
+    const all_month = 67
+    const current_over = 791.82
+    const all_money = 270278
+    document.getElementById('a1').innerText = `贷款还剩 ${al_time.length} 个月`
+    document.getElementById('a2').innerText = `每月还款 4034 元`
+    document.getElementById('a3').innerText = `本金利息总计还款 ${al_time.length * 4034} 元`
+    document.getElementById('a4').innerText = `当前 ${moment().format('MM') * 1} 月份利息是 ${current_over - (all_month - al_time.length) * 8.88} 元`
+    
+
+    let tArr = []
+    for (let i = 0; i < al_time.length; i++) {
+      const e = al_time[i];
+      const a = Math.ceil(current_over - i * 8.88)
+      tArr.push(e + ' 利息' + a + '元 本金' + (4034 - a))
+    }
+    console.log(tArr)
+    document.getElementById('a5').innerText = `需要经历的月份 \r\n ${tArr.join('\r\n')}`
+
+    // 5-20 利息是 791.82 每个月利息递减 8.88
+    // document.getElementById('a4').innerText = `贷款还剩本金 247915 元`
+    // document.getElementById('a5').innerText = `贷款还剩总利息 18329 元`
+  </script>
+</body>
+</html>
